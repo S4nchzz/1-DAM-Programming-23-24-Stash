@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 import dam.filesCreator.htmlCreator.*;
 
-public class Elemento extends Contenido{
+public abstract class Elemento extends Contenido{
     private final String nombre;
     private Map <String, Atributo> atributos;
     
@@ -28,11 +28,6 @@ public class Elemento extends Contenido{
 
     public void imprimirCierre (PrintWriter p, int sangrado) {
         p.println(Imprimible.sangrar("</" + nombre + ">", sangrado));
-    }
-    
-    @Override
-    public void imprimir (PrintWriter p, int sangrado) {
-
     }
 
     public void anadirAtributo(String nombre, String value) throws Exception {
