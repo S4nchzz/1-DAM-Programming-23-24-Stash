@@ -14,7 +14,7 @@ public class OrdenarMenos3 {
                 if (a[i] > a[i + 1]) {
                     temp = a[i + 1];
                     a[i + 1] = a[i];
-                    a[i] = temp;
+                    a[i] = temp;d
                 }
             }
         }
