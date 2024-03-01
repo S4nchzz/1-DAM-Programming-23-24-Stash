@@ -14,4 +14,8 @@ public class Documento extends Imprimible{
     public void imprimir (PrintWriter p, int sangrado) {
         raiz.imprimir(p, sangrado);
     }
+
+    public Elemento getRaiz() {
+        return this.raiz;
+    }
 }

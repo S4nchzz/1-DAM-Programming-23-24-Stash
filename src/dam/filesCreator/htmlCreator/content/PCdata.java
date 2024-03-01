@@ -12,8 +12,6 @@ public class PCdata extends Contenido{
 
     @Override
     public void imprimir(PrintWriter p, int sangrado) {
-        for (int i = 0; i < sangrado; i++) {
-            p.println(Imprimible.sangrar(texto, sangrado));
-        }
+        p.println(Imprimible.sangrar(texto, sangrado));
     }
 }

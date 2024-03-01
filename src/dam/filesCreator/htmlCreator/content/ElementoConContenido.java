@@ -10,6 +10,7 @@ public class ElementoConContenido extends Elemento {
     public ElementoConContenido(String nombre) {
         super(nombre);
         contenido = new LinkedList<Contenido>();
+        
     }
 
     @Override

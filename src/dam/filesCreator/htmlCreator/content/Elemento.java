@@ -15,7 +15,7 @@ public abstract class Elemento extends Contenido{
         atributos = new TreeMap<String, Atributo>();
     }
 
-    public void imprimirApertura (PrintWriter p, int sangrado) {
+    public void imprimirApertura (PrintWriter p, int sangrado, boolean endBar) {
         p.print(Imprimible.sangrar("<", sangrado));
         p.print(nombre);
 
@@ -23,7 +23,15 @@ public abstract class Elemento extends Contenido{
             a.imprimir(p, sangrado);
         }
 
-        p.println(">");
+        if (endBar) {
+            p.println("/>");
+        } else {
+            p.println(">");
+        }
+    }
+
+    public void imprimirApertura(PrintWriter p, int sangrado) {
+        imprimirApertura(p, sangrado, false);
     }
 
     public void imprimirCierre (PrintWriter p, int sangrado) {
