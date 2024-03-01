@@ -19,4 +19,8 @@ public abstract class Imprimible {
     public static void setEspacios(int espacios) {
         Imprimible.espacios = espacios;
     }
+
+    public static String replaceGtLt(String value) {
+        return "&lt;" + value + "&gt";    
+    }
 }
