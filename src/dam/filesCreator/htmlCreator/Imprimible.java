@@ -21,6 +21,11 @@ public abstract class Imprimible {
     }
 
     public static String replaceGtLt(String value) {
-        return "&lt;" + value + "&gt";    
+        value.replace("<", "&lt");
+        value.replace(">", "&gt");
+        value.replace("&", "&amp");
+        value.replace("\"", "&quote");
+        
+        return value;
     }
 }
