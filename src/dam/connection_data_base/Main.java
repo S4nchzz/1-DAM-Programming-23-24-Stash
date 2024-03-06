@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Main {
     public static void main (String [] args) {
         Scanner sc = new Scanner(System.in);
-        final String s = sc.nextLine();
+        String s = sc.nextLine();
 
         System.out.println(s);
 
@@ -20,6 +20,8 @@ public class Main {
             Connection con = DriverManager.getConnection(url, "root","");
 
             System.out.println(sql); 
+
+            s = s.replace("\'", "\\\'");
 
             final Statement st = con.createStatement();            
             final ResultSet r = st.executeQuery(sql);
@@ -33,6 +35,7 @@ public class Main {
             r.close();
             st.close();
             con.close();
+            sc.close();
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
