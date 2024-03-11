@@ -10,112 +10,123 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        final String url = "jdbc:mariadb://127.0.0.1:3310/usuarios";
-        Connection conn = null;
-
+        final String url = "jdbc:mariadb://127.0.0.1:3310/java_users";
+        
         try {
-            conn = DriverManager.getConnection(url, "root", "");
+            final Connection conn = DriverManager.getConnection(url, "root", "");
         } catch (SQLException sqle) {
+            sqle.getMessage();
             System.exit(0);
         }
-
-        System.out.println("----------0----------");
-        System.out.println("1. Añadir");
-        System.out.println("2. Borrar");
-        System.out.println("3. Cambiar Contraseña Contraseña");
-        System.out.println("4. Abrir sesion");
         
         Scanner sc = new Scanner(System.in);
         int userInput = 0;
 
         do {
-            try {
-                userInput = sc.nextInt();
-                if (userInput >= 0 && userInput <= 5) {
-                    break;
-                }
-            } catch (InputMismatchException ime) {
-                sc.next();
-            }
-        } while (true);
+            System.out.println("----------0----------");
+            System.out.println("1. Añadir");
+            System.out.println("2. Borrar");
+            System.out.println("3. Cambiar Contraseña");
+            System.out.println("4. Acceder");
+            System.out.println("0. Salir");
 
-        if (conn == null) {
-            return;
-        }
+            userInput = sc.nextInt();
 
-        eleccion(userInput, conn);
+        } while (userInput < 0 || userInput > 4);
+
+        eleccion(userInput);
     }
 
-    public static void eleccion (int eleccion, Connection conn) {
-        Scanner sc = new Scanner(System.in);
+    public static void eleccion (int eleccion) {
         switch (eleccion) {
             case 1:
-                System.out.print("Escriba el nombre del usuario: ");
-                String userName = sc.next();
-                
-                System.out.print("Escriba la contraseña del usuario: ");
-                String userPassword = sc.next();
-
-                try {
-                    PreparedStatement st = conn.prepareStatement("INSERT INTO USERS (USERNAME, PASSWORD) VALUES (\" " + userName + "\", \"" + userPassword + "\")");
-                    ResultSet r = st.executeQuery();
-                } catch (SQLException sqle) {
-                    sqle.getMessage();
-                }
-                
+                anadir();
             break;
-            
+
             case 2:
+                borrar();
             break;
 
             case 3:
+                cambiarContrasena();
             break;
-
+            
             case 4:
+                acceder();
             break;
-
-            default:
-                System.out.println("Error on choose");
-            break;
-        }        
+        }
     }
 
-    public static void main1(String[] args) {
-        final Scanner sc = new Scanner(System.in);
-        final String s = sc.nextLine();
-        System.out.println(s);
+    private static void anadir () {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre: ");
+        String name = sc.next();
+
+        System.out.print("Password: ");
+        String pass = sc.next();
+
+        String salt = saltGenerator();
+        String passwordAndSalt = salt + pass;
+
+        final String url = "jdbc:mariadb://127.0.0.1:3310/java_users";
 
         try {
-            final String url = "jdbc:mariadb://127.0.0.1:3310/ajedrez";
-            final String sql = "SELECT ID, NOMBRE"
-                    + " FROM JUGADOR"
-                    + " WHERE NOMBRE LIKE ?";
+            final Connection conn = DriverManager.getConnection(url, "root", "");
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO USER (USERNAME, SALT, PASS) VALUES (?, ?, ?);");
+            
+            st.setString(1, name);
+            st.setString(2, salt);
+            st.setBytes(3, sha256(passwordAndSalt));
 
-            System.out.println(sql);
-
-            final Connection con = DriverManager.getConnection(url, "root", "");
-            final PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, "%" + s + "%");
-            final ResultSet r = st.executeQuery();
-
-            while (r.next()) {
-                final int id = r.getInt(1);
-                final String nombre = r.getString(2);
-                System.out.println(id + " - " + nombre);
-            }
-
-            r.close();
+            st.executeQuery();
             st.close();
-            con.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException sqle) {
+            sqle.getMessage();
         }
 
+
+        //insert
+    }
+    
+    private static void borrar() {
+
+    }
+    
+    private static void cambiarContrasena() {
+
+    }
+    
+    private static void acceder() {
+
+    }
+
+    private static String saltGenerator() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 15; i++) {
+            sb.append ((char)(33 + (int)(Math.random() * 94)));
+        }
+
+        return sb.toString();
+    }
+
+    public static String hashToString(byte[] hash) {
+        final StringBuilder r = new StringBuilder();
+
+        for (int k = 0; k < hash.length; k++) {
+            r.append(toHex((hash[k] >> 4) & 0xF));
+            r.append(toHex(hash[k] & 0xF));
+        }
+
+        return r.toString();
     }
 
     public static char toHex(int x) {
@@ -128,17 +139,6 @@ public class Main {
         } else {
             return '?';
         }
-    }
-
-    public static String hashToString(byte[] hash) {
-        final StringBuilder r = new StringBuilder();
-
-        for (int k = 0; k < hash.length; k++) {
-            r.append(toHex((hash[k] >> 4) & 0xF));
-            r.append(toHex(hash[k] & 0xF));
-        }
-
-        return r.toString();
     }
 
     public static byte[] sha256(String s) {
