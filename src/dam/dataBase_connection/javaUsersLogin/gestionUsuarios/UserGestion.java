@@ -25,19 +25,21 @@ public class UserGestion {
         String salt = Salting.saltGenerator();
         String passwordAndSalt = salt + pass;
 
-        // URL CON CONEXION A LA BASE DE DATOS
+        // URL con la conexion a la base de datos
         final String url = "jdbc:mariadb://127.0.0.1:3310/java_users";
 
         try {
-            // SE ESTABLECE LA CONEXION
+            // Se establece la conexion real a usar
             final Connection conn = DriverManager.getConnection(url, "root", "");
-            // STATEMENT PARA DAR EJECUTAR LA CONSULTA EN LA BASE DE DATOS SI SE REALIZA CON
-            // EXITO LA CONEXION
+            // Statement para dar ejecutar la consulta en la base de datos si se realiza con
+            // exito la conexion
             PreparedStatement st = conn.prepareStatement(
                     "INSERT INTO USER (USERNAME, SALT, PASS) VALUES (?, ?, ?);");
 
             st.setString(1, name);
             st.setString(2, salt);
+            // En el parametro 3 del PreparedStatement se envia el array de bytes con la conversion
+            // de SHA-356
             st.setBytes(3, ConversionSHA256.sha256(passwordAndSalt));
 
             st.executeQuery();
@@ -114,11 +116,14 @@ public class UserGestion {
         sc.close();
 
         Connection conn = DriverManager.getConnection(url, "root", "");
+        //Prepared statement con el usuario salt y contraseña de la fila
         PreparedStatement stUSP = conn.prepareStatement("SELECT USERNAME, SALT, PASS FROM USER");
+        //Se almacena los valores anteriores en una variable de tipo ResultSet
         ResultSet rs = stUSP.executeQuery();
 
         String saltFromUser = "";
 
+        //Si el usuario existe guardamos en una variable su salt para comprobarlo posteriormente
         int posicion = 1;
         while (rs.next()) {
             if (rs.getString(1).equals(username)) {
@@ -131,6 +136,7 @@ public class UserGestion {
         // Contraseña ingresada por el usuario y el salt del usuario correcto
         byte [] passAndSalt = ConversionSHA256.sha256(saltFromUser + password);
 
+        //Nueva variable de tipo ResultSet para reiniciar la consulta desde la primera fila
         ResultSet rsCheckPassword = stUSP.executeQuery();
 
         // Vamos a la posicion del usuario que quiere acceder
@@ -146,9 +152,11 @@ public class UserGestion {
 
         try {
             try {
+                // Se comprueba por ultima vez si el usuario existe, esto se debe a que puede que
+                // exista la posibilidad de que se haya borrado.
                 boolean userExists = rsCheckPassword.getString(1).equals(username);
 
-                MessageDigest.getInstance("SHA-256");
+                // Si el usuario existe se guarda si contraseña en forma de array de bytes
                 if (userExists) {
                     passOnBytes = rsCheckPassword.getBytes(3);
                 }
@@ -158,6 +166,9 @@ public class UserGestion {
                 return false;
             }
 
+            // Si el array de bytes no es null y la contraseña hasheada con el salt del usuario
+            // es igual a la hash completo de la base de datos entonces la contraesña sera la 
+            // correcta
             if (passOnBytes != null && MessageDigest.isEqual(passOnBytes, passAndSalt)) {
                 System.out.println("Sesion iniciada");
                 return true;
@@ -165,8 +176,8 @@ public class UserGestion {
                 System.out.println("Inicio de sesion erroneo");
             }
 
-        } catch(NoSuchAlgorithmException nsae) {
-            System.out.println(nsae.getMessage());
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
         }
 
         return false;
