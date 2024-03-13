@@ -1,4 +1,4 @@
-package dam.connection_data_base.connectionAndCreation;
+package dam.dataBase_connection.javaUsersLogin.connectionAndCreation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +24,7 @@ public class DBCreationAndConnection {
 
                 PreparedStatement useDatabase = checkServer.prepareStatement("USE java_users;");
                 PreparedStatement createTableUser = checkServer.prepareStatement(
-                        "CREATE TABLE user (USERNAME VARCHAR(15) PRIMARY KEY, SALT VARCHAR(16) NOT NULL, PASS VARCHAR(16) NOT NULL);");
+                        "CREATE TABLE user (USERNAME VARCHAR(15) PRIMARY KEY, SALT VARCHAR(16) NOT NULL, PASS BINARY(32) NOT NULL);");
 
                 setUpDatabase.executeQuery();
                 useDatabase.executeQuery();

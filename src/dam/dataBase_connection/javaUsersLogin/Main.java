@@ -1,9 +1,9 @@
-package dam.connection_data_base;
+package dam.dataBase_connection.javaUsersLogin;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import dam.connection_data_base.connectionAndCreation.DBCreationAndConnection;
+import dam.dataBase_connection.javaUsersLogin.connectionAndCreation.DBCreationAndConnection;
 
 public class Main {
     public static void main(String[] args) throws SQLException {

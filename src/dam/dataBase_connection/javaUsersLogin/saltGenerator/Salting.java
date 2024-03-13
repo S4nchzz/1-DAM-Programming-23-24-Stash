@@ -1,4 +1,4 @@
-package dam.connection_data_base.saltGenerator;
+package dam.dataBase_connection.javaUsersLogin.saltGenerator;
 
 public class Salting {
     public static String saltGenerator() {

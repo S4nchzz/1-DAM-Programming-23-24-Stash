@@ -1,14 +1,17 @@
-package dam.connection_data_base.gestionUsuarios;
+package dam.dataBase_connection.javaUsersLogin.gestionUsuarios;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import dam.connection_data_base.saltGenerator.Salting;
-import dam.connection_data_base.encodingSHA256.ConversionSHA256;
+import dam.dataBase_connection.javaUsersLogin.saltGenerator.Salting;
+import dam.dataBase_connection.javaUsersLogin.encodingSHA256.ConversionSHA256;
 
 public class UserGestion {
     public static void anadir() {
@@ -65,7 +68,7 @@ public class UserGestion {
             st.close();
             sc.close();
         } catch (SQLException sqle) {
-            sqle.getMessage();
+            System.out.println(sqle.getMessage());
         }
     }
 
@@ -98,7 +101,7 @@ public class UserGestion {
         st2.executeQuery();
     }
 
-    public static void acceder() throws SQLException {
+    public static boolean acceder() throws SQLException {
         final String url = "jdbc:mariadb://127.0.0.1:3310/java_users";
         Scanner sc = new Scanner(System.in);
 
@@ -111,8 +114,8 @@ public class UserGestion {
         sc.close();
 
         Connection conn = DriverManager.getConnection(url, "root", "");
-        PreparedStatement stUS = conn.prepareStatement("SELECT USERNAME, SALT FROM USER");
-        ResultSet rs = stUS.executeQuery();
+        PreparedStatement stUSP = conn.prepareStatement("SELECT USERNAME, SALT, PASS FROM USER");
+        ResultSet rs = stUSP.executeQuery();
 
         String saltFromUser = "";
 
@@ -120,18 +123,15 @@ public class UserGestion {
         while (rs.next()) {
             if (rs.getString(1).equals(username)) {
                 saltFromUser = rs.getString(2);
-                System.out.println(saltFromUser);
                 break;
             }
             posicion++;
         }
 
         // Contraseña ingresada por el usuario y el salt del usuario correcto
-        byte[] passAndSalt = ConversionSHA256.sha256(saltFromUser + password);
+        byte [] passAndSalt = ConversionSHA256.sha256(saltFromUser + password);
 
-        PreparedStatement stUSP = conn.prepareStatement("SELECT USERNAME, SALT, PASS FROM USER");
         ResultSet rsCheckPassword = stUSP.executeQuery();
-        boolean truePass = false;
 
         // Vamos a la posicion del usuario que quiere acceder
         // para no recorrer la BBDD
@@ -139,17 +139,36 @@ public class UserGestion {
         rsCheckPassword.absolute(posicion);
 
         // Si el nombre del usuario y el hash de la contraseña coinciden se pone a true
-        // el boolean de que el usuario que intenta acceder es el correcto
-        // ! SOLUCIONR ESTO NO SE PUEDE DAR UN ARRAY DE BYTES Y QUE RETORNE UN STRING
-        if (rsCheckPassword.getString(1).equals(username) && 
-                rsCheckPassword.getString(3).equals(passAndSalt)) {
-            truePass = true;
+        // el boolean haciendo referencia al que la contraseña para ese usuario en 
+        // especifico es correcto
+
+        byte [] passOnBytes = null;
+
+        try {
+            try {
+                boolean userExists = rsCheckPassword.getString(1).equals(username);
+
+                MessageDigest.getInstance("SHA-256");
+                if (userExists) {
+                    passOnBytes = rsCheckPassword.getBytes(3);
+                }
+
+            } catch (SQLDataException sqlde) {
+                System.out.println("El usuario no existe, saliendo...");
+                return false;
+            }
+
+            if (passOnBytes != null && MessageDigest.isEqual(passOnBytes, passAndSalt)) {
+                System.out.println("Sesion iniciada");
+                return true;
+            } else {
+                System.out.println("Inicio de sesion erroneo");
+            }
+
+        } catch(NoSuchAlgorithmException nsae) {
+            System.out.println(nsae.getMessage());
         }
 
-        if (truePass) {
-            System.out.println("Sesion Iniciada");
-        } else {
-            System.out.println("Error en inicio de sesion");
-        }
+        return false;
     }
 }

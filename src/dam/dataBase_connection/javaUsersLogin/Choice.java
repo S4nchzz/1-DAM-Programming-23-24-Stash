@@ -1,7 +1,7 @@
-package dam.connection_data_base;
+package dam.dataBase_connection.javaUsersLogin;
 
 import java.sql.SQLException;
-import dam.connection_data_base.gestionUsuarios.UserGestion;
+import dam.dataBase_connection.javaUsersLogin.gestionUsuarios.UserGestion;
 
 public class Choice {
     public static void eleccion(int eleccion) throws SQLException {
