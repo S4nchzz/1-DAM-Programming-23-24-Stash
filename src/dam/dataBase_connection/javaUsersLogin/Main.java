@@ -37,7 +37,12 @@ public class Main {
         }
     }
 
-        public static boolean eleccion(int eleccion) throws SQLException {
+    /**
+     * Metodo eleccion para gestionar la base de datos
+     * @param eleccion numero de eleccion 1-4
+     * @return true si la operacion realizada el el caso 1..4 correctamente, falso si no
+     */
+    public static boolean eleccion(int eleccion) {
         switch (eleccion) {
             case 1: 
                 System.out.print("Nombre: ");
