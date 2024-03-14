@@ -1,4 +1,4 @@
-package dam.dataBase_connection.javaUsersLogin.connectionAndCreation;
+package dam.dataBase_connection.javaUsersLogin.backend.connectionAndCreation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package dam.dataBase_connection.javaUsersLogin.hashing;
+package dam.dataBase_connection.javaUsersLogin.backend.hashing;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

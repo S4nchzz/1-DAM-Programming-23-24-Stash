@@ -1,4 +1,4 @@
-package dam.dataBase_connection.javaUsersLogin.gestionUsuarios;
+package dam.dataBase_connection.javaUsersLogin.backend.gestionUsuarios;
 
 import java.security.MessageDigest;
 import java.sql.Connection;
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dam.dataBase_connection.javaUsersLogin.hashing.SHA256AndSalt;
+import dam.dataBase_connection.javaUsersLogin.backend.hashing.SHA256AndSalt;
 
 /**
  * Clase que gestiona todo el control de la base de datos, metodos (anadir(),

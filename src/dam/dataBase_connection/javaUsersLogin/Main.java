@@ -3,8 +3,9 @@ package dam.dataBase_connection.javaUsersLogin;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import dam.dataBase_connection.javaUsersLogin.connectionAndCreation.DBCreationAndConnection;
-import dam.dataBase_connection.javaUsersLogin.gestionUsuarios.UserGestion;
+import dam.dataBase_connection.javaUsersLogin.backend.connectionAndCreation.DBCreationAndConnection;
+import dam.dataBase_connection.javaUsersLogin.backend.gestionUsuarios.UserGestion;
+import dam.dataBase_connection.javaUsersLogin.frontend.menu.Menu;
 
 public class Main {
     private static Scanner sc;
@@ -17,6 +18,7 @@ public class Main {
 
         if (DBCreationAndConnection.createDBandTB()) {
             do {
+                new Menu();
                 System.out.println("----------0----------");
                 System.out.println("1. Añadir");
                 System.out.println("2. Borrar");
