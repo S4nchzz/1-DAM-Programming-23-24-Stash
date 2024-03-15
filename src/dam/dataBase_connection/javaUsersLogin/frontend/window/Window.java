@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
+
 public abstract class Window extends JFrame {
     public Window () {
         setSize(500, 500);
