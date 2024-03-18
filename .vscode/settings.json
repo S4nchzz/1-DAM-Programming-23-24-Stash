@@ -3,5 +3,21 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3310,
+            "driver": "MariaDB",
+            "name": "127.0.0.1",
+            "database": "ajedrez",
+            "username": "root",
+            "password": ""
+        }
     ]
 }
