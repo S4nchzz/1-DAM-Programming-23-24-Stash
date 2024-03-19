@@ -6,22 +6,33 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.AddRadio;
+import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.ChangePassRadio;
+import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.DeleteRadio;
+import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.LoginRadio;
+
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class JFrameLogin extends JFrame implements ComponentListener {
-    private JButton b;
-    public JFrameLogin() {
+public class Window extends JFrame implements ComponentListener {
+    private JButton acceptButton;
+
+    public Window() {
         this.setTitle("Login");      
-        
+
         setLayout(null); // Posicionamiento de los objetos de la 
         setSize(500, 500); // Tamaño de la 
         setVisible(true); // Hacerla visible
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Se le pasa a este metodo la variable EXITONCLOSE situada en JFrame con valor 3
 
-        b = new JButtonAceptar();
-        add(b); // Se añade el boton al frame
-
+        acceptButton = new JButtonAceptar();
+        add(acceptButton); // Se añade el boton aceptar al frame
+       
+        add(new AddRadio()); // Se añade el AddRadioButton al frame
+        add(new DeleteRadio()); // Se añade el DeleteRadioButton al frame
+        add(new ChangePassRadio()); // Se añade el ChangePassRadioButton al frame
+        add(new LoginRadio()); // Se añade el LoginRadioButton al frame
+        
         componentResized(null);
         addComponentListener(this); // Llamada al metodo JFrame.addComponentListener con el objeto a modificar, en este caso this
     }
@@ -31,7 +42,7 @@ public class JFrameLogin extends JFrame implements ComponentListener {
         final Insets insets = getInsets();
         final int width = getWidth() - insets.left - insets.right;
         final int heigth = getHeight() - insets.top - insets.bottom;
-        final Dimension preferred = b.getPreferredSize();
+        final Dimension preferred = acceptButton.getPreferredSize();
 
         final int xButton;
         final int yButton;
@@ -54,7 +65,7 @@ public class JFrameLogin extends JFrame implements ComponentListener {
             hButton = preferred.height;
         }
 
-        b.setBounds(xButton, yButton, wButton, hButton);
+        acceptButton.setBounds(xButton, yButton, wButton, hButton);
     }
 
     @Override
