@@ -10,6 +10,7 @@ import java.sql.SQLException;
  * y si se encuentra la base de datos java_users, si no esta la crea
  */
 public class DBCreationAndConnection {
+    public static String url; // URL estatica para poder se accesible desde otros metodos
     /**
      * Este metodo iniciara una conexion al servidor de mariadb, si hay un 
      * error ira al catch si no proseguira y realizara otra conexion que se 
@@ -18,16 +19,18 @@ public class DBCreationAndConnection {
      * 3 objetos de tipo PreparedStatement
      * @return
      */
-    public static boolean createDBandTB() {
-        final String url = "jdbc:mariadb://127.0.0.1:3310/";
+    public static boolean createDBandTB(int port) {
+        url = "jdbc:mariadb://127.0.0.1:" + port + "/";
 
         try {
             // Prueba de conexion al SERVIDOR
             Connection dbServer = DriverManager.getConnection(url, "root", "");
-
+            
+            url += "java_users";
+            
             try {
                 // Prueba de conexion a la base de datos
-                Connection checkDatabase = DriverManager.getConnection(url + "java_users", "root", "");
+                Connection checkDatabase = DriverManager.getConnection(url, "root", "");
                 checkDatabase.close(); // Se cierra la conexion instantaneamente.
                 System.out.println("Database java_users founded");
             } catch (SQLException sqleNoDatabaseFound) {

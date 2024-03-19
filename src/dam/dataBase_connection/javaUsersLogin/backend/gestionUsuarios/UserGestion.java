@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dam.dataBase_connection.javaUsersLogin.backend.connectionAndCreation.DBCreationAndConnection;
 import dam.dataBase_connection.javaUsersLogin.backend.hashing.SHA256AndSalt;
 
 /**
@@ -14,8 +15,8 @@ import dam.dataBase_connection.javaUsersLogin.backend.hashing.SHA256AndSalt;
  * borrar(), cambiarContrasena(), acceder())
  */
 public class UserGestion {
-    // URL global de la base de datos
-    final static String url = "jdbc:mariadb://127.0.0.1:3310/java_users";
+    // URL global de la base de datos obtenido del String estatico de DBCreationAndConnection
+    final static String url = DBCreationAndConnection.url;
 
     /**
      * Este metodo iniciara una conexion con la base de datos y creara un objeto de

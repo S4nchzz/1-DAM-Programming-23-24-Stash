@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import dam.dataBase_connection.javaUsersLogin.backend.connectionAndCreation.DBCreationAndConnection;
 import dam.dataBase_connection.javaUsersLogin.backend.gestionUsuarios.UserGestion;
-import dam.dataBase_connection.javaUsersLogin.frontend.menu.Menu;
+import dam.dataBase_connection.javaUsersLogin.frontend.JU_Window;
 
 public class Main {
     private static Scanner sc;
@@ -13,12 +13,13 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         sc = new Scanner(System.in);
         int userInput = 0;
-        
-        System.out.println("Trying establish connection");
 
-        if (DBCreationAndConnection.createDBandTB()) {
+        System.out.println("Trying establish connection");
+        System.out.print("Port: ");
+
+        if (DBCreationAndConnection.createDBandTB(sc.nextInt())) {
             do {
-                new Menu();
+                new JU_Window();
                 System.out.println("----------0----------");
                 System.out.println("1. Añadir");
                 System.out.println("2. Borrar");
@@ -41,12 +42,14 @@ public class Main {
 
     /**
      * Metodo eleccion para gestionar la base de datos
+     * 
      * @param eleccion numero de eleccion 1-4
-     * @return true si la operacion realizada el el caso 1..4 correctamente, falso si no
+     * @return true si la operacion realizada el el caso 1..4 correctamente, falso
+     *         si no
      */
     public static boolean eleccion(int eleccion) {
         switch (eleccion) {
-            case 1: 
+            case 1:
                 System.out.print("Nombre: ");
                 String name = sc.next();
 
@@ -54,7 +57,7 @@ public class Main {
                 String pass = sc.next();
 
                 boolean gestionResultAdd = UserGestion.anadir(name, pass);
-                
+
                 if (gestionResultAdd) {
                     System.out.println("Usuario añadido correctamente");
                     return true;
@@ -110,7 +113,7 @@ public class Main {
                     System.out.println("Error al iniciar sesion");
                     return false;
                 }
-            
+
             default:
                 return false;
         }
