@@ -5,38 +5,50 @@ import java.util.Scanner;
 
 import dam.dataBase_connection.javaUsersLogin.backend.connectionAndCreation.DBCreationAndConnection;
 import dam.dataBase_connection.javaUsersLogin.backend.gestionUsuarios.UserGestion;
+import dam.dataBase_connection.javaUsersLogin.frontend.JPort;
 import dam.dataBase_connection.javaUsersLogin.frontend.JU_Window;
 
 public class Main {
     private static Scanner sc;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, InterruptedException {
         sc = new Scanner(System.in);
         int userInput = 0;
 
         System.out.println("Trying establish connection");
         System.out.print("Port: ");
+        
+        JPort port = new JPort();
 
-        if (DBCreationAndConnection.createDBandTB(sc.nextInt())) {
-            do {
-                new JU_Window();
-                System.out.println("----------0----------");
-                System.out.println("1. Añadir");
-                System.out.println("2. Borrar");
-                System.out.println("3. Cambiar Contraseña");
-                System.out.println("4. Acceder");
-                System.out.println("0. Salir");
+        // Si el entryRecived es falso hara pausas de 1ms cada vuelta esperando a que el usuario ingrese algo
+        while (!port.entryRecived()) {
+            Thread.sleep(1);
+        }
 
-                userInput = sc.nextInt();
+        if (port.entryRecived()) {
+            if (DBCreationAndConnection.createDBandTB(port.getEntry())) {
+                do {
+                    new JU_Window();
+                    System.out.println("----------0----------");
+                    System.out.println("1. Añadir");
+                    System.out.println("2. Borrar");
+                    System.out.println("3. Cambiar Contraseña");
+                    System.out.println("4. Acceder");
+                    System.out.println("0. Salir");
 
-            } while (userInput < 0 || userInput > 4);
+                    userInput = sc.nextInt();
 
-            System.out.println(eleccion(userInput));
+                } while (userInput < 0 || userInput > 4);
 
-            sc.close();
-            System.out.println("Exiting...");
+                System.out.println(eleccion(userInput));
+
+                sc.close();
+                System.out.println("Exiting...");
+            } else {
+                System.out.println("Error while creating Database");
+            }
         } else {
-            System.out.println("Error while creating Database");
+            System.exit(0);
         }
     }
 

@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -38,11 +39,6 @@ public class JU_Window extends JFrame implements ComponentListener {
         setLocationRelativeTo(null); // Posicion relativa, si esta en null es el centro
         setAlwaysOnTop(true); //Posicion en la posicion y = 0;
 
-        acceptButton = new JButtonAceptar(this);
-        cancelButton = new JButtonCancelar();
-        add(acceptButton); // Se añade el boton aceptar al frame
-        add(cancelButton); // Se añade el boton cancelar al frame
-
         lLogin = new JLabel();
         lLogin.setText("Login: ");
 
@@ -50,7 +46,7 @@ public class JU_Window extends JFrame implements ComponentListener {
         lPass.setText("Password: ");
 
         tLogin = new JTextField();
-        tPass = new JTextField();
+        tPass = new JPasswordField();
 
         add(lLogin);
         add(lPass);
@@ -73,6 +69,12 @@ public class JU_Window extends JFrame implements ComponentListener {
         rAction.add(delete);
         rAction.add(changePass);
         rAction.add(login);
+
+        acceptButton = new JButtonAceptar(this);
+        cancelButton = new JButtonCancelar(this);
+
+        add(acceptButton); // Se añade el boton aceptar al frame
+        add(cancelButton); // Se añade el boton cancelar al frame
 
         add(addUser);
         add(delete);
@@ -104,21 +106,23 @@ public class JU_Window extends JFrame implements ComponentListener {
         lPass.setBounds(s, s * 2 + h0, w0, h0); // Bounds for LabelPass
         tPass.setBounds(s * 2 + w0, s * 2 + h0, w1, h0); // Bounds for TextFieldPassword
 
-        final Dimension preferredButton = acceptButton.getPreferredSize();
+        final Dimension preferredButtonAccept = acceptButton.getPreferredSize();
+        final Dimension preferredButtonCancel = cancelButton.getPreferredSize();
 
         int xButton = s * 2 + w0;
         int yButton = h0 * 2 + s * 2 + s;
-        int wButton = preferredButton.width;
-        int hButton = preferredButton.height;
+        int wButton = preferredButtonAccept.width;
+        int hButton = preferredButtonAccept.height;
 
         acceptButton.setBounds(xButton, yButton, wButton, hButton);
+        cancelButton.setBounds(xButton + s + preferredButtonCancel.width, yButton, preferredButtonCancel.width, hButton);
 
         Dimension addDim = addUser.getPreferredSize(); // Objeto dimension del radioButton add
         Dimension deleteDim = delete.getPreferredSize(); // Objeto dimension del radioButton delete
         Dimension changeDim = changePass.getPreferredSize(); // Objeto dimension del radioButton changePass
         Dimension loginDim = login.getPreferredSize(); // Objeto dimension del radioButton login
 
-        int radioY = h0 * 2 + s * 2 + s;
+        int radioY = h0 * 2 + s * 4 + h0;
 
         addUser.setBounds(s, radioY, addDim.width, addDim.height);
         radioY += h0;
