@@ -5,11 +5,8 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.AddRadio;
-import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.ChangePassRadio;
-import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.DeleteRadio;
-import dam.ventanasPrimerasPruebas.claseJFramePrimerasPruebas.menuRadioButton.radio.LoginRadio;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -18,22 +15,22 @@ public class JU_Window extends JFrame implements ComponentListener {
     private JButton acceptButton;
 
     public JU_Window() {
-        this.setTitle("Login");      
+        this.setTitle("Database Menu Admin");  
 
-        setLayout(null); // Posicionamiento de los objetos de la 
-        setSize(500, 500); // Tamaño de la 
+        setLayout(null); // Posicionamiento de los objetos de la
+        setSize(500, 500); // Tamaño de la
         setVisible(true); // Hacerla visible
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Se le pasa a este metodo la variable EXITONCLOSE situada en JFrame con valor 3
-        setLocation(600, 300);
-        setAlwaysOnTop(true);
+        setLocation(600, 300); // Posicion por defecto en pixeles x: 600 y: 300
+        setAlwaysOnTop(true); //Posicion en la posicion y = 0;
 
-        acceptButton = new JButtonAceptar();
-        add(acceptButton); // Se añade el boton aceptar al frame
+        add(new JButtonAceptar(this)); // Se añade el boton aceptar al frame
 
-        add(new AddRadio()); // Se añade el AddRadioButton al frame
-        add(new DeleteRadio()); // Se añade el DeleteRadioButton al frame
-        add(new ChangePassRadio()); // Se añade el ChangePassRadioButton al frame
-        add(new LoginRadio()); // Se añade el LoginRadioButton al frame
+        final JLabel lLogin;
+        final JLabel lPass;
+
+        final JTextField tlogin;
+        final JTextField tpass;
 
         componentResized(null);
         addComponentListener(this); // Llamada al metodo JFrame.addComponentListener con el objeto a modificar, en este caso this

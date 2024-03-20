@@ -1,18 +1,23 @@
 package dam.dataBase_connection.javaUsersLogin.frontend;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
 
 public class JButtonAceptar extends JButton implements ActionListener {
-    public JButtonAceptar() {
+    private JFrame frame;
+
+    public JButtonAceptar(JFrame frame) {
         setText("Aceptar");
+        this.frame = frame;
         addActionListener(this);
     }
 
     @Override
-    public void actionPerformed (ActionEvent ae) {
-        
+    public void actionPerformed(ActionEvent e) {
+        frame.getContentPane().setBackground(new Color(0xFFFF00));
     }
 }
