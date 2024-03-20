@@ -16,6 +16,7 @@ public class Main {
 
         System.out.println("Trying establish connection");
         System.out.print("Port: ");
+        System.out.println("Prueba");
 
         if (DBCreationAndConnection.createDBandTB(sc.nextInt())) {
             do {
