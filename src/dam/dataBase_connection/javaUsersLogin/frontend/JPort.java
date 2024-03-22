@@ -14,8 +14,8 @@ public class JPort extends JFrame implements ActionListener, ComponentListener {
     private int entry;
     private boolean entryRecived = false;
     
-
     public JPort () {
+        super("Puerto del serividor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setLocationRelativeTo(null);

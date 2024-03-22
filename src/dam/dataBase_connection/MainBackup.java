@@ -1,4 +1,4 @@
-package dam.dataBase_connection.javaUsersLogin;
+package dam.dataBase_connection;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import dam.dataBase_connection.javaUsersLogin.backend.gestionUsuarios.UserGestio
 import dam.dataBase_connection.javaUsersLogin.frontend.JPort;
 import dam.dataBase_connection.javaUsersLogin.frontend.JU_Window;
 
-public class Main {
+public class MainBackup {
     private static Scanner sc;
 
     public static void main(String[] args) throws SQLException, InterruptedException {
@@ -20,7 +20,7 @@ public class Main {
         
         JPort port = new JPort();
 
-        // Si el entryRecived es falso hara pausas de 1ms cada vuelta esperando a que el usuario ingrese algo
+        // Si el entryRecived es falso hara pausas de 1ms cada vuelta esperando a que el usuario ingrese algun valor
         while (!port.entryRecived()) {
             Thread.sleep(1);
         }
