@@ -20,9 +20,10 @@ public class ContadorPrimos extends Thread {
         t = c.getTarea();
 
         while (t != null) {
-            c.setAcumulador(contarPrimos());
+            contarPrimos();
             t = c.getTarea ();
         }
+        c.setAcumulador(countPrimos);
     }
 
     private boolean esPrimo(int x) {
