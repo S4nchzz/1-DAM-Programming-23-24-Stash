@@ -16,8 +16,10 @@ public class Libro {
     public Prestamo iniciarPrestamo (String cliente, Fecha fechaInicio) {
         if (!estaReservado()) {
             expandArray();
-
+            return prestamos[prestamos.length - 1] = new Prestamo(cliente, fechaInicio);
         }
+
+        return null;
     }
 
     private boolean estaReservado () {
@@ -35,5 +37,14 @@ public class Libro {
         }
 
         this.prestamos = p;
+    }
+
+    public Prestamo finalizarPrestamo (Fecha fechaFin) {
+        if (prestamos[prestamos.length - 1] != null) {
+            return null;
+        }
+
+        prestamos[prestamos.length - 1].setFechaFin(fechaFin);
+        return prestamos[prestamos.length - 1];
     }
 }
