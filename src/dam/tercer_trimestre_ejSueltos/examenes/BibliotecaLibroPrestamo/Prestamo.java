@@ -1,4 +1,4 @@
-package dam.tercer_trimestre_ejSueltos.examenes.BibliotecaLibroPrestamo;
+package dam.tercer_trimestre_ejSueltos.examenes.bibliotecaLibroPrestamo;
 
 public class Prestamo {
     private final String nombre;
@@ -9,9 +9,9 @@ public class Prestamo {
         return nombre;
     }
 
-    public Prestamo (String nombre) {
+    public Prestamo (String nombre, Fecha fechaInicio) {
         this.nombre = nombre;
-        this.fechaInicio = null;
+        this.fechaInicio = fechaInicio;
         this.fechaFin = null;
     }
 
@@ -21,5 +21,9 @@ public class Prestamo {
 
     public Fecha getFechaFin() {
         return fechaFin;
+    }
+
+    public void setFechaFin(Fecha fecha) {
+        this.fechaFin = fecha;
     }
 }

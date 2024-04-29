@@ -1,4 +1,4 @@
-package dam.tercer_trimestre_ejSueltos.examenes.BibliotecaLibroPrestamo;
+package dam.tercer_trimestre_ejSueltos.examenes.bibliotecaLibroPrestamo;
 
 public class Libro {
     private final String title;
@@ -16,8 +16,12 @@ public class Libro {
     public Prestamo iniciarPrestamo (String cliente, Fecha fechaInicio) {
         if (!estaReservado()) {
             expandArray();
-
+            Prestamo p = new Prestamo(cliente, fechaInicio);
+            this.prestamos[prestamos.length - 1] = p;
+            return p;
         }
+
+        return null;
     }
 
     private boolean estaReservado () {

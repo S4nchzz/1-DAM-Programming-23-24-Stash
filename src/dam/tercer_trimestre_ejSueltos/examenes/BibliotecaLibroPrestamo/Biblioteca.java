@@ -1,5 +1,5 @@
-package dam.tercer_trimestre_ejSueltos.examenes.BibliotecaLibroPrestamo;
+package dam.tercer_trimestre_ejSueltos.examenes.bibliotecaLibroPrestamo;
 
 public class Biblioteca {
-    private final Libro [] libros;
+    
 }
