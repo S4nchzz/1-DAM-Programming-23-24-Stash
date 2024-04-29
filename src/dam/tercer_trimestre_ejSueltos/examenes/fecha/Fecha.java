@@ -107,7 +107,7 @@ public class Fecha {
     }
 
     public void avanzarMes() {
-        if (mes < 12 || ano < 2099) {
+        if (mes < 12 && ano < 2099) {
             if (this.mes + 1 == 13) { // mes enero
                 this.mes = 1;
                 avanzarAno();
