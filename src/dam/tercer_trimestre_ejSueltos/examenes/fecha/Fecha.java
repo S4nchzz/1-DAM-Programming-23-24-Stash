@@ -87,7 +87,7 @@ public class Fecha {
     public void avanzarDia() {
         if (this.dia < 32 || mes < 12 || ano < 2100) {
             // dia superior al maximo
-            if ((this.dia + 1) - (maxDia(this.mes, this.ano)) == -1) {
+            if ((this.dia + 1) > (maxDia(this.mes, this.ano))) {
                 this.dia = 1;
                 avanzarMes();
 
@@ -107,7 +107,7 @@ public class Fecha {
     }
 
     public void avanzarMes() {
-        if (mes < 12 && ano < 2099) {
+        if (mes <= 12 && ano < 2099) {
             if (this.mes + 1 == 13) { // mes enero
                 this.mes = 1;
                 avanzarAno();
